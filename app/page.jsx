@@ -9,11 +9,13 @@ import { Container } from '@/components'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getAllCharacters } from '@/lib/characters';
+import { headers } from 'next/headers';
 
 
 export default async function Page() {
 
-  const data = await getAllCharacters();
+  const host = headers().get("host");
+  const data = await getAllCharacters({ host });
   return (
     <main>
       <Container className='grid grid-cols-2 gap-1 py-5 md:grid-cols-3 lg:grid-cols-4'>

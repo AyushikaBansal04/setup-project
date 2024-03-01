@@ -10,11 +10,13 @@ Renders a Next.js page component that displays detailed information about a char
 import { Container } from '@/components'
 import Image from 'next/image'
 import { getAllCharacters, getCharacterBySlug } from '@/lib/characters'
+import { headers } from 'next/headers'
 
 const dynamicParams = true
 
 const generateStaticParams = async () => {
-  const { characters } = await getAllCharacters();
+  const host = headers().get("host");
+  const { characters } = await getAllCharacters({ host });
   return characters.map((character) => ({ slug: character.slug }))
 }
 

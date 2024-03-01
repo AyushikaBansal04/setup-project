@@ -9,16 +9,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { endpoint } from '@/utils/endpoint'
 import { TbArrowBigRightFilled } from 'react-icons/tb'
+import { headers } from 'next/headers'
 
-const getRandomQuizQuestion = async () => {
-  const data = await fetch(`${endpoint}/quiz/random`, { cache: 'no-store' });
+const getRandomQuizQuestion = async ({ host }) => {
+  const data = await fetch(`https://${host}/api/quiz/random`, { cache: 'no-store' });
   if(!data.ok) throw new Error("Failed to Fetch data");
 
   return data.json();
 }
 
 export default async function Page() {
-  const { randomQuestion } = await getRandomQuizQuestion();
+  const host = headers().get("host");
+  const { randomQuestion } = await getRandomQuizQuestion({ host });
   return (
     <Container
       as="main"

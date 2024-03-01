@@ -10,16 +10,17 @@ Renders a Next.js page component that displays a quiz question and its answer op
 import { Container } from '@/components'
 import { Answer } from '@/components/Answer'
 import { endpoint } from '@/utils/endpoint'
+import { headers } from 'next/headers';
 
-const getQuizQuestion = async({ id }) => {
-  const data = await fetch(`${endpoint}/quiz/${id}`);
+const getQuizQuestion = async({ id, host }) => {
+  const data = await fetch(`https://${host}/api/quiz/${id}`);
   if(!data.ok) throw new Error("Failed to Fetch data");
-
   return data.json();
 }
 
 export default async function Page({ params }) {
-  const { question : { title, answers }} = await getQuizQuestion({ id: params.id });
+  const host = headers().get("host");
+  const { question : { title, answers }} = await getQuizQuestion({ id: params.id, host });
   return (
     <Container as="main" className="flex flex-col gap-5 py-5">
       <h1 className="text-lg font-semibold">{title}</h1>
