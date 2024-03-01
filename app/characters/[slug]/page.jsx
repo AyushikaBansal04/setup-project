@@ -21,7 +21,8 @@ const generateStaticParams = async () => {
 }
 
 export default async function Page({ params }) {
-  const { character, characterQuotes} = await getCharacterBySlug({ slug: params.slug})
+  const host = headers().get("host");
+  const { character, characterQuotes} = await getCharacterBySlug({ slug: params.slug, host })
   return (
     <Container className="flex flex-col gap-5 py-5" as="main">
       <div className="flex flex-col gap-2">
